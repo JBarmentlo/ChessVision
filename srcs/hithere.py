@@ -58,20 +58,24 @@ with dai.Device(pipeline) as device:
 	while(True):
 		edgeRgb = edgeRgbQueue.get()
 		edgeRgbFrame = edgeRgb.getFrame()
+		edgeRgbFrame[edgeRgbFrame < 150] = 0
 		videoFrame = videoQueue.get().getCvFrame()
 		cv2.imshow(edgeRgbStr, edgeRgbFrame)
-		cv2.imshow(videoStr, videoFrame)
+		# print(f"vid shape: {videoFrame.shape}. EdgeShape: {edgeRgbFrame.shape}")
+		# print(type(edgeRgbFrame))
+		
 
 		# Show the frame
 
 		# LineFrame = cv2.cvtColor(edgeRgbFrame, cv2.COLOR_GRAY2BGR)
 		# LineFrame = np.copy(edgeRgbFrame)
-		# lines = cv2.HoughLinesP(edgeRgbFrame, 1, np.pi/180, 800, 300, 0)
-		# if lines is not None:
-		# 	print(len(lines))
-		# 	for i in range(0, len(lines)):
-		# 		l = lines[i][0]
-		# 		cv2.line(LineFrame, (l[0], l[1]), (l[2], l[3]), (0,0,255), 1, cv2.LINE_AA)
+		lines = cv2.HoughLinesP(edgeRgbFrame, 1, np.pi/180, 100, 500, 0)
+		if lines is not None:
+			print(len(lines))
+			for i in range(0, len(lines)):
+				l = lines[i][0]
+				cv2.line(videoFrame, (l[0], l[1]), (l[2], l[3]), (0,0,255), 1, cv2.LINE_AA)
+		cv2.imshow(videoStr, videoFrame)
 
 		# lines = cv2.HoughLines(edgeRgbFrame, 10, np.pi / 180, 10000, None, 0, 0)
     
