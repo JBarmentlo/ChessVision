@@ -65,6 +65,8 @@ with dai.Device(pipeline) as device:
 		# edgeRgbFrame[edgeRgbFrame < 150] = 0
 		videoFrame = videoQueue.get().getCvFrame()
 		cv2.imshow(edgeRgbStr, edgeRgbFrame)
+		cv2.imshow("Filtered edge", filterEdgeFrame)
+
 		# print(f"vid shape: {videoFrame.shape}. EdgeShape: {edgeRgbFrame.shape}")
 		# print(type(edgeRgbFrame))
 		
@@ -85,6 +87,7 @@ with dai.Device(pipeline) as device:
 		# ret, corners = cv2.findChessboardCorners(videoFrame, (7,7))
 		# print(f"ret: {ret}, corners:\n{corners}")
 		# cv2.drawChessboardCorners(videoFrame, (7,7), corners, ret)
+		# cv2.imshow("board", videoFrame)
 
 		# if (ret):
 		# 	cv2.imshow("ChessBoardCorners", videoFrame)
